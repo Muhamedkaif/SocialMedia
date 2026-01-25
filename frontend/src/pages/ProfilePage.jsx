@@ -65,7 +65,7 @@ const ProfilePage = ({ user }) => {
       setUploading(true);
 
       const res = await axios.post(
-        'http://localhost:8080/api/users/profile-image',
+        'https://socialmedia-y0ij.onrender.com/api/users/profile-image',
         formData,
         { withCredentials: true }
       );
@@ -137,7 +137,8 @@ const ProfilePage = ({ user }) => {
           >
             {profile.profileImage ? (
               <img
-                src={`http://localhost:8080${profile.profileImage}`}
+                src={`https://socialmedia-y0ij.onrender.com
+${profile.profileImage}`}
                 className="w-full h-full object-cover"
                 alt="profile"
               />
@@ -180,7 +181,8 @@ const ProfilePage = ({ user }) => {
                 >
                   {post.imageUrl ? (
                     <img
-                      src={`http://localhost:8080${post.imageUrl}`}
+                      src={`https://socialmedia-y0ij.onrender.com
+${post.imageUrl}`}
                       className="w-full h-full object-cover"
                       alt="post"
                     />
