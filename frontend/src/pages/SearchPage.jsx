@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar.jsx";
 import { Search } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';

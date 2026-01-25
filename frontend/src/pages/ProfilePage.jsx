@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar.jsx";
 import { userService } from '@/services/userService';
 import { authService } from '@/services/authService';
 import { User as UserIcon } from 'lucide-react';
