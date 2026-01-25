@@ -18,7 +18,7 @@ const UserSearchPage = () => {
     try {
       setLoading(true);
       setError('');
-      const res = await axios.get(`/api/users/search?query=${query}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/search?query=${query}`);
       
       const result = Array.isArray(res.data)
       ? res.data
