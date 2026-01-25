@@ -3,18 +3,17 @@ FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-# Copy Maven wrapper & pom
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
+# Copy everything
+COPY . .
 
-# Download dependencies
-RUN chmod +x mvnw && ./mvnw dependency:go-offline
+# Make mvnw executable
+RUN chmod +x mvnw
 
-# Copy source and build
-COPY src src
-RUN ./mvnw package -DskipTests
+# Build the application
+RUN ./mvnw clean package -DskipTests
 
-# Run the app
+# Expose port (Render uses $PORT internally)
 EXPOSE 8080
-CMD ["java", "-jar", "target/*.jar"]
+
+# Run the Spring Boot jar (explicit name)
+CMD ["sh", "-c", "java -jar target/*.jar"]
