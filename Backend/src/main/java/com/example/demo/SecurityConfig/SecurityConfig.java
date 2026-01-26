@@ -97,7 +97,7 @@ public class SecurityConfig {
         config.setAllowedOriginPatterns(List.of(
                 "http://localhost:5173",
                 "http://localhost:3000",
-                "https://social-media-git-main-muhamedkaifs-projects.vercel.app",
+                "social-media-swart-chi.vercel.app",
                 "https://*.vercel.app"
         ));
 
