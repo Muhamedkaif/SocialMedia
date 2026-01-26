@@ -84,7 +84,7 @@ const HomePage = ({ user }) => {
                 {/* Image */}
                 {post.imageUrl && (
                   <img
-                    src={`https://socialmedia-y0ij.onrender.com${post.imageUrl}`}
+                    src={post.imageUrl}
                     alt="post"
                     className="w-full object-cover"
                   

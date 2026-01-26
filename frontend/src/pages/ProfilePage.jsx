@@ -142,7 +142,7 @@ const ProfilePage = ({ user }) => {
           >
             {profile.profileImage ? (
               <img
-                src={`https://socialmedia-y0ij.onrender.com${profile.profileImage}`}
+                src={profile.profileImage}
                 className="w-full h-full object-cover"
                 alt="profile"
               />
@@ -185,7 +185,7 @@ const ProfilePage = ({ user }) => {
                 >
                   {post.imageUrl ? (
                     <img
-                      src={`https://socialmedia-y0ij.onrender.com${post.imageUrl}`}
+                      src={post.imageUrl}
                       className="w-full h-full object-cover"
                       alt="post"
                     />
