@@ -105,43 +105,51 @@ public ResponseEntity<?> uploadProfileImage(
 ) {
 
     try {
+        System.out.println("=== PROFILE IMAGE UPLOAD START ===");
+
         if (authentication == null || !authentication.isAuthenticated()) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "Not authenticated"));
+            System.out.println("AUTH IS NULL");
+            return ResponseEntity.status(401).body("Not authenticated");
         }
 
         if (image == null || image.isEmpty()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(Map.of("message", "Image is required"));
+            System.out.println("IMAGE IS EMPTY");
+            return ResponseEntity.badRequest().body("Image is required");
         }
 
         String email = authentication.getName();
+        System.out.println("AUTH USER = " + email);
+        System.out.println("IMAGE SIZE = " + image.getSize());
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // delete old image safely
+        System.out.println("USER FOUND = " + user.getId());
+
         if (user.getProfileImage() != null && !user.getProfileImage().isBlank()) {
+            System.out.println("DELETING OLD IMAGE");
             cloudinaryService.deleteByUrl(user.getProfileImage());
         }
 
-        // upload new image
+        System.out.println("UPLOADING NEW IMAGE TO CLOUDINARY");
         String imageUrl = cloudinaryService.upload(image, "profiles");
+
+        System.out.println("CLOUDINARY URL = " + imageUrl);
 
         user.setProfileImg(imageUrl);
         userRepository.save(user);
 
+        System.out.println("PROFILE IMAGE SAVED");
+
         return ResponseEntity.ok(Map.of("profileImage", imageUrl));
 
     } catch (Exception e) {
-        e.printStackTrace(); // 🔥 CRITICAL: shows real cause in Render logs
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("error", e.getMessage()));
+        System.out.println("🔥 PROFILE IMAGE ERROR 🔥");
+        e.printStackTrace(); // THIS LINE IS CRITICAL
+        return ResponseEntity.status(500).body(e.getMessage());
     }
 }
+
 
 
 
