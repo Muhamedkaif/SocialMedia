@@ -1,5 +1,5 @@
 <h1 align="center">📱 Social Media Application</h1> <p align="center"> A full-stack social media platform built with modern backend and frontend technologies.<br/> Designed to demonstrate real-world application architecture, authentication, and cloud integration. </p>
-📌 Project Overview
+<h2>Project Overview</h2>
 
 This is a full-stack social media application that enables users to register, log in using session-based authentication, create posts with images, and manage their profiles.
 
