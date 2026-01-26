@@ -3,27 +3,27 @@
 
 This is a full-stack social media application that enables users to register, log in using session-based authentication, create posts with images, and manage their profiles.
 
-The application is built using Spring Boot, React, MySQL, and Cloudinary for cloud-based image storage.
+The application is built using Spring Boot, React, MySQL, and Cloudinary for cloud-based image storage
 It is fully deployed and production-ready.
 
-✨ Features
+<h3>Features</h2> 
 
-🔐 Session-Based User Authentication
+ Session-Based User Authentication
 
-👤 User Registration & Profile Management
+ User Registration & Profile Management
 
-🖼️ Image Upload & Storage using Cloudinary
+ Image Upload & Storage using Cloudinary
 
-📝 Post Management (Create, Read, Update, Delete)
+ Post Management (Create, Read, Update, Delete)
 
-🧾 RESTful API Architecture
+ RESTful API Architecture
 
-🌐 Responsive Frontend UI
+ Responsive Frontend UI
 
-☁️ Deployed Full-Stack Application
+ Deployed Full-Stack Application
 
-🛠️ Tech Stack
-🔹 Backend
+<h3>Tech Stack</h3> 
+<h5>Backend</h5>
 
 Java
 
@@ -37,7 +37,7 @@ MySQL
 
 Session Management
 
-🔹 Frontend
+<h3> Frontend</h3>
 
 React
 
@@ -47,7 +47,7 @@ React Router
 
 HTML, CSS, JavaScript
 
-🔹 Cloud & Tools
+<h3>Cloud & Tools</h3>
 
 Cloudinary (Image Storage)
 
@@ -59,7 +59,7 @@ Vercel (Frontend Deployment)
 
 Railway / Render (Backend Deployment)
 
-🖼️ Image Handling
+<h3>Image Handling</h3>
 
 Images are uploaded securely to Cloudinary
 
@@ -69,15 +69,14 @@ Image URLs are stored in the database
 
 Images are rendered dynamically on the frontend
 
-🌍 Live Deployment
+<h3>Live Deployment</h3>
 
 Frontend: Deployed on Vercel
 
 Backend: Deployed on Railway / Render
 
-🔗 Live links can be added here
 
-🧠 What I Learned
+<h3>What I Learned</h3>
 
 Implementing session-based authentication in Spring Boot
 
@@ -91,25 +90,25 @@ Managing environment variables for production
 
 Deploying and maintaining full-stack applications
 
-🔮 Future Enhancements
+<h3>Future Enhancements</h3>
 
-❤️ Like & 💬 Comment functionality
+ Like & 💬 Comment functionality
 
-🔔 Notifications system
+ Notifications system
 
-🧑‍🤝‍🧑 Follow / Unfollow users
+ Follow / Unfollow users
 
-🔐 JWT-based authentication (optional upgrade)
+ JWT-based authentication (optional upgrade)
 
-📱 UI & UX improvements
+ UI & UX improvements
 
-👨‍💻 Author
-Muhamed Kaif K
+<h3> Author</h3>
+<h4>Muhamed Kaif K</h4>
 
 Full-Stack Developer | Java • Spring Boot • React
 
-📧 Email:
+<h4>Email:</h4>
 muhamedkaifk@gmail.com
 
-💼 LinkedIn:
+<h4>LinkedIn:</h4>
 https://www.linkedin.com/in/muhamed-kaif-14179932b/
