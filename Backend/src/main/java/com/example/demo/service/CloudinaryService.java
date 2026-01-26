@@ -26,13 +26,19 @@ public class CloudinaryService {
     }
 
     // 🗑️ Delete image using URL
-    public void deleteByUrl(String imageUrl) throws IOException {
-        if (imageUrl == null || imageUrl.isEmpty()) return;
+    public void deleteByUrl(String imageUrl) {
+    try {
+        if (imageUrl == null || imageUrl.isBlank()) return;
+        if (!imageUrl.contains("/upload/")) return;
 
         String publicId = imageUrl
                 .substring(imageUrl.indexOf("/upload/") + 8)
                 .replaceAll("\\.[^.]+$", "");
 
         cloudinary.uploader().destroy(publicId, Map.of());
+    } catch (Exception e) {
+        e.printStackTrace(); // log but never crash request
     }
+}
+
 }

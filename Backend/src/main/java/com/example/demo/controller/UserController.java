@@ -98,38 +98,50 @@ public class UserController {
                         ))
                 .toList();
     }
-  @PostMapping("/profile-image")
+ @PostMapping("/profile-image")
 public ResponseEntity<?> uploadProfileImage(
         @RequestParam("image") MultipartFile image,
         Authentication authentication
-) throws IOException {
+) {
 
-    if (authentication == null) {
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not authenticated");
+    try {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Not authenticated"));
+        }
+
+        if (image == null || image.isEmpty()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("message", "Image is required"));
+        }
+
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // delete old image safely
+        if (user.getProfileImage() != null && !user.getProfileImage().isBlank()) {
+            cloudinaryService.deleteByUrl(user.getProfileImage());
+        }
+
+        // upload new image
+        String imageUrl = cloudinaryService.upload(image, "profiles");
+
+        user.setProfileImg(imageUrl);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(Map.of("profileImage", imageUrl));
+
+    } catch (Exception e) {
+        e.printStackTrace(); // 🔥 CRITICAL: shows real cause in Render logs
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("error", e.getMessage()));
     }
-
-    String email = authentication.getName();
-
-    User user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-
-    // 🧹 delete old image ONLY if exists
-    String oldImage = user.getProfileImage();
-    if (oldImage != null && !oldImage.isBlank()) {
-        cloudinaryService.deleteByUrl(oldImage);
-    }
-
-    // ☁ upload new image
-    String imageUrl = cloudinaryService.upload(image, "profiles");
-
-    user.setProfileImg(imageUrl);
-    userRepository.save(user);
-
-    return ResponseEntity.ok(Map.of(
-            "profileImage", imageUrl
-    ));
 }
-
 
 
 
