@@ -65,7 +65,7 @@ const ProfilePage = ({ user }) => {
       setUploading(true);
 
       const res = await axios.post(
-  "/api/users/profile-image",
+  "https://socialmedia-y0ij.onrender.com/api/users/profile-image",
   formData,
   {
     headers: {
