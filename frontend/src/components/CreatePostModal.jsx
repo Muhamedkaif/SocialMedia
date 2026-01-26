@@ -103,12 +103,13 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
           </label>
 
           {imagePreview && (
-            <img
-              src={imagePreview}
-              alt="Preview"
-              className="w-full rounded-lg"
-            />
+          <img
+          src={imagePreview}
+          alt="Preview"
+          className="w-full max-h-[300px] object-contain rounded-lg"
+          />
           )}
+
 
           <button
             type="submit"
