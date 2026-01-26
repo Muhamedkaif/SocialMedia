@@ -12,8 +12,7 @@ import com.example.demo.service.PostService;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.FileService;
-
+import com.example.demo.service.CloudinaryService;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
@@ -27,13 +26,13 @@ public class UserController {
     private final UserRepository userRepository;
     private final UserService userService;
     private final PostService postService;
-    private final FileService fileService;
+    private final CloudinaryService cloudinaryService;
 
-    public UserController(UserService userService , PostService postService , UserRepository userRepository, FileService fileService) {
+    public UserController(UserService userService , PostService postService , UserRepository userRepository, CloudinaryService cloudinaryService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.postService = postService;
-        this.fileService = fileService;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @PostMapping("/register")
@@ -99,28 +98,29 @@ public class UserController {
                         ))
                 .toList();
     }
-    @PostMapping("/profile-image")
-    public ResponseEntity<?> uploadProfileImage(
-            @RequestParam("image") MultipartFile image,
-            Principal principal
-    ) throws IOException {
+   @PostMapping("/profile-image")
+public ResponseEntity<?> uploadProfileImage(
+        @RequestParam("image") MultipartFile image,
+        Principal principal
+) throws IOException {
 
-        User user = userRepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    User user = userRepository.findByEmail(principal.getName())
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 🧹 delete old image
-        fileService.deleteProfileImage(user.getProfileImage());
+    // 🧹 delete old image from Cloudinary
+    cloudinaryService.deleteByUrl(user.getProfileImage());
 
-        // 💾 save new image
-        String newImagePath = fileService.saveProfileImage(image);
+    // ☁ upload new image
+    String imageUrl = cloudinaryService.upload(image, "profiles");
 
-        user.setProfileImg(newImagePath);
-        userRepository.save(user);
+    user.setProfileImg(imageUrl);
+    userRepository.save(user);
 
-        return ResponseEntity.ok(Map.of(
-                "profileImage", newImagePath
-        ));
-    }
+    return ResponseEntity.ok(Map.of(
+            "profileImage", imageUrl
+    ));
+}
+
 
 
 }
