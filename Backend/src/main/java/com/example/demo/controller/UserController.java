@@ -98,17 +98,26 @@ public class UserController {
                         ))
                 .toList();
     }
-   @PostMapping("/profile-image")
+  @PostMapping("/profile-image")
 public ResponseEntity<?> uploadProfileImage(
         @RequestParam("image") MultipartFile image,
-        Principal principal
+        Authentication authentication
 ) throws IOException {
 
-    User user = userRepository.findByEmail(principal.getName())
+    if (authentication == null) {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not authenticated");
+    }
+
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-    // 🧹 delete old image from Cloudinary
-    cloudinaryService.deleteByUrl(user.getProfileImage());
+    // 🧹 delete old image ONLY if exists
+    String oldImage = user.getProfileImage();
+    if (oldImage != null && !oldImage.isBlank()) {
+        cloudinaryService.deleteByUrl(oldImage);
+    }
 
     // ☁ upload new image
     String imageUrl = cloudinaryService.upload(image, "profiles");
@@ -120,6 +129,7 @@ public ResponseEntity<?> uploadProfileImage(
             "profileImage", imageUrl
     ));
 }
+
 
 
 
