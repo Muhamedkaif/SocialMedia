@@ -65,10 +65,15 @@ const ProfilePage = ({ user }) => {
       setUploading(true);
 
       const res = await axios.post(
-        'https://socialmedia-y0ij.onrender.com/api/users/profile-image',
-        formData,
-        { withCredentials: true }
-      );
+  "/api/users/profile-image",
+  formData,
+  {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    withCredentials: true, 
+  }
+);
 
       setProfile(prev => ({
         ...prev,
