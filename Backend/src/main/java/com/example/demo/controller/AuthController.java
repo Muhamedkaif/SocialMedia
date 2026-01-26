@@ -24,21 +24,34 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> login(
-            @RequestBody LoginDto request
-    ) {
-        Authentication authentication =
-                authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                request.email().toLowerCase(),
-                                request.password()
-                        )
-                );
+public Map<String, String> login(
+        @RequestBody LoginDto request,
+        HttpServletRequest httpRequest
+) {
+    Authentication authentication =
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.email().toLowerCase(),
+                            request.password()
+                    )
+            );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    // 🔐 Create a new SecurityContext
+    SecurityContext context = SecurityContextHolder.createEmptyContext();
+    context.setAuthentication(authentication);
 
-        return Map.of("message", "Login successful");
-    }
+    // 🔐 Set it for current thread
+    SecurityContextHolder.setContext(context);
+
+    // 🔥 SAVE CONTEXT IN SESSION (THIS WAS MISSING)
+    HttpSession session = httpRequest.getSession(true);
+    session.setAttribute(
+            HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+            context
+    );
+
+    return Map.of("message", "Login successful");
+}
 
 
 }
