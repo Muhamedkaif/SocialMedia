@@ -2,7 +2,9 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL:  import.meta.env.VITE_API_BASE_URL,
-  withCredentials: true, // Important for session-based auth
+  withCredentials: true, 
+   xsrfCookieName: null,   // 🔥 disable CSRF handling
+  xsrfHeaderName: null,// Important for session-based auth
 });
 
 // Response interceptor for handling errors globally
