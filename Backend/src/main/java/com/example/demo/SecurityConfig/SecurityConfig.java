@@ -34,10 +34,8 @@ public class SecurityConfig {
 
         http
                 // ✅ ENABLE CORS
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
-                // ✅ DISABLE CSRF (required for frontend + session)
-                .csrf(org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf.disable())   // 🔥 THIS IS CRITICAL
+        .cors(cors -> {})  
 
 
                 .securityContext(security ->
