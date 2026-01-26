@@ -23,7 +23,7 @@ It is fully deployed and production-ready.
  Deployed Full-Stack Application
 
 <h3>Tech Stack</h3> 
-<h5>Backend</h5>
+<h4>Backend</h4>
 
 Java
 
@@ -37,7 +37,7 @@ MySQL
 
 Session Management
 
-<h3> Frontend</h3>
+<h4> Frontend</h4>
 
 React
 
