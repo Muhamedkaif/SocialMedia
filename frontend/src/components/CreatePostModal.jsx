@@ -109,8 +109,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
           className="w-full max-h-[300px] object-contain rounded-lg"
           />
           )}
-
-
+          
           <button
             type="submit"
             disabled={isSubmitting}
