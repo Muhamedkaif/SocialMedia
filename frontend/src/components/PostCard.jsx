@@ -64,7 +64,7 @@ const PostCard = ({ post, currentUser, onDelete }) => {
       {post.imageUrl && (
         <div className="w-full aspect-square bg-[#262626]">
           <img
-            src={`https://socialmedia-y0ij.onrender.com${post.imageUrl}`}
+            src={post.imageUrl}
             alt="Post"
             loading="lazy"
             className="w-full h-full object-cover"
