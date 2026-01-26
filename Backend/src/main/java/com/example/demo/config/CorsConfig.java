@@ -15,7 +15,7 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
                         .allowedOriginPatterns(
-                                "https://social-media-git-main-muhamedkaifs-projects.vercel.app",
+                                "https://social-media-swart-chi.vercel.app",
                                 "https://*.vercel.app"
                         )
                                                         

@@ -57,7 +57,8 @@ public class SecurityConfig {
                                 "/api/users/*/profile",
                                 "/api/users/*/posts",
                                 "/api/posts/create",
-                                "/api/users/profile-image"
+                                "/api/users/profile-image",
+                                "/api/posts/**"
                         ).permitAll()
 
                         .anyRequest().authenticated()
