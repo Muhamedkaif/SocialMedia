@@ -33,17 +33,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                // ✅ ENABLE CORS
-                .csrf(csrf -> csrf.disable())   // 🔥 THIS IS CRITICAL
-        .cors(cors -> {})  
+            // ✅ Enable CORS
+            .cors(cors -> {})
 
+            // ✅ Disable CSRF (important for APIs)
+            .csrf(csrf -> csrf.disable())
 
-                .authorizeHttpRequests(auth -> auth
+            .authorizeHttpRequests(auth -> auth
 
-                // preflight
+                // ✅ Allow preflight requests
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                // public endpoints
+                // ✅ Public endpoints
                 .requestMatchers(
                         "/api/auth/login",
                         "/api/auth/logout",
@@ -53,7 +54,7 @@ public class SecurityConfig {
                         "/api/users/*/posts"
                 ).permitAll()
 
-                // protected endpoints
+                // ✅ Protected endpoints
                 .requestMatchers(
                         "/api/users/me",
                         "/api/users/profile-image",
@@ -64,42 +65,41 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
 
-                // ✅ SESSION BASED AUTH (keep as you had)
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                )
+            // ✅ Session-based authentication
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+            )
 
-                .authenticationProvider(authenticationProvider())
+            .authenticationProvider(authenticationProvider())
 
-                .formLogin(form -> form.disable())
-                .httpBasic(basic -> basic.disable())
+            // Disable default login mechanisms
+            .formLogin(form -> form.disable())
+            .httpBasic(basic -> basic.disable())
 
-                // ✅ LOGOUT CONFIG (unchanged)
-                .logout(logout -> logout
-                        .logoutUrl("/api/auth/logout")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .deleteCookies("JSESSIONID")
-                        .logoutSuccessHandler((req, res, auth) -> {
-                            res.setStatus(200);
-                            res.setContentType("application/json");
-                            res.getWriter().write("{\"message\":\"Logged out successfully\"}");
-                        })
-                );
+            // ✅ Logout configuration
+            .logout(logout -> logout
+                .logoutUrl("/api/auth/logout")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler((req, res, auth) -> {
+                    res.setStatus(200);
+                    res.setContentType("application/json");
+                    res.getWriter().write("{\"message\":\"Logged out successfully\"}");
+                })
+            );
 
         return http.build();
     }
 
-    // ✅ CORS CONFIGURATION (CRITICAL)
+    // ✅ FIXED CORS CONFIG (NO WILDCARDS)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOriginPatterns(List.of(
-                "http://localhost:5173",
-                "http://localhost:3000",
-                "https://social-media-swart-chi.vercel.app",
-                "https://*.vercel.app"
+        config.setAllowedOrigins(List.of(
+                "https://social-media-swart-chi.vercel.app"
         ));
 
         config.setAllowedMethods(List.of(
@@ -107,15 +107,17 @@ public class SecurityConfig {
         ));
 
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // REQUIRED for session auth
+
+        // ✅ REQUIRED for session cookies
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
+
         source.registerCorsConfiguration("/**", config);
 
         return source;
     }
-
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -140,8 +142,6 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .requestMatchers(
-                        "/uploads/**"
-                );
+                .requestMatchers("/uploads/**");
     }
 }
