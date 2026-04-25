@@ -150,7 +150,4 @@ public ResponseEntity<?> uploadProfileImage(
     }
 }
 
-
-
-
 }
