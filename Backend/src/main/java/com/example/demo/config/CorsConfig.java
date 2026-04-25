@@ -13,15 +13,11 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
-                        .allowedOriginPatterns(
-                                "https://social-media-swart-chi.vercel.app",
-                                "https://*.vercel.app"
-                        )
-                                                        
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
+               registry.addMapping("/api/**")
+        .allowedOrigins("https://social-media-swart-chi.vercel.app")
+        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        .allowedHeaders("*")
+        .allowCredentials(true);
             }
         };
     }
